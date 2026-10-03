@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ====================================================== */
 
     const GOOGLE_SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbyodpeXWRDS0yGHeHua00fkBPsatubYo7Yfg4EnTQNEd0vxe3k-tDBxD_ac9Df9C-qRGA/exec";
+        "https://script.google.com/macros/s/AKfycbxxJIWpYbL0XMxXSwMydbzlLOdgujaZkQCAnvtQbMnX0y9soYushByj1ajxVgneyYuG/exec";
 
 
     /* =====================================================
