@@ -3082,3 +3082,26 @@ input:focus-visible {
 
 
 }
+.site-header {
+
+    transition:
+        background 300ms ease,
+        border-color 300ms ease,
+        box-shadow 300ms ease;
+
+}
+
+
+.site-header.scrolled {
+
+    background:
+        rgba(5, 5, 5, 0.96);
+
+    border-bottom-color:
+        rgba(184, 154, 90, 0.18);
+
+    box-shadow:
+        0 8px 30px
+        rgba(0, 0, 0, 0.18);
+
+}
