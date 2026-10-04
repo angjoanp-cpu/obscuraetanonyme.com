@@ -1,3 +1,5 @@
+document.documentElement.classList.add("js");
+
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
@@ -5,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ====================================================== */
 
     const GOOGLE_SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbxxJIWpYbL0XMxXSwMydbzlLOdgujaZkQCAnvtQbMnX0y9soYushByj1ajxVgneyYuG/exec";
+        "https://script.google.com/macros/s/AKfycbx0LUeUU0Jtjga8VM5CrvaNjrjmVEJdE_ZPRjkpJKOA10A6EEJMAifu93GNlPtGMitg2A/exec";
 
 
     /* =====================================================
@@ -33,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!header) return;
 
+
         if (window.scrollY > 70) {
 
             header.classList.add(
@@ -52,10 +55,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener(
         "scroll",
-        handleHeaderScroll
+        handleHeaderScroll,
+        { passive: true }
     );
 
+
     handleHeaderScroll();
+
 
 
     /* =====================================================
@@ -67,31 +73,105 @@ document.addEventListener("DOMContentLoaded", () => {
             "menuToggle"
         );
 
+
     const mainNav =
         document.getElementById(
             "mainNav"
         );
 
 
-    if (menuToggle && mainNav) {
+    function openMenu() {
+
+        if (
+            !menuToggle ||
+            !mainNav
+        ) {
+            return;
+        }
+
+
+        mainNav.classList.add(
+            "is-open"
+        );
+
+
+        document.body.classList.add(
+            "menu-open"
+        );
+
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            "true"
+        );
+
+
+        menuToggle.setAttribute(
+            "aria-label",
+            "Close navigation"
+        );
+
+    }
+
+
+    function closeMenu() {
+
+        if (
+            !menuToggle ||
+            !mainNav
+        ) {
+            return;
+        }
+
+
+        mainNav.classList.remove(
+            "is-open"
+        );
+
+
+        document.body.classList.remove(
+            "menu-open"
+        );
+
+
+        menuToggle.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+
+        menuToggle.setAttribute(
+            "aria-label",
+            "Open navigation"
+        );
+
+    }
+
+
+    if (
+        menuToggle &&
+        mainNav
+    ) {
 
         menuToggle.addEventListener(
             "click",
             () => {
 
                 const isOpen =
-                    mainNav.classList.toggle(
-                        "active"
-                    );
+                    menuToggle.getAttribute(
+                        "aria-expanded"
+                    ) === "true";
 
-                menuToggle.classList.toggle(
-                    "active"
-                );
 
-                menuToggle.setAttribute(
-                    "aria-expanded",
-                    isOpen
-                );
+                if (isOpen) {
+
+                    closeMenu();
+
+                } else {
+
+                    openMenu();
+
+                }
 
             }
         );
@@ -105,27 +185,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
             link.addEventListener(
                 "click",
-                () => {
-
-                    mainNav.classList.remove(
-                        "active"
-                    );
-
-                    menuToggle.classList.remove(
-                        "active"
-                    );
-
-                    menuToggle.setAttribute(
-                        "aria-expanded",
-                        "false"
-                    );
-
-                }
+                closeMenu
             );
 
         });
 
     }
+
 
 
     /* =====================================================
@@ -137,28 +203,37 @@ document.addEventListener("DOMContentLoaded", () => {
         event => {
 
             if (
-                event.key === "Escape" &&
-                mainNav &&
-                menuToggle
+                event.key === "Escape"
             ) {
 
-                mainNav.classList.remove(
-                    "active"
-                );
-
-                menuToggle.classList.remove(
-                    "active"
-                );
-
-                menuToggle.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
+                closeMenu();
 
             }
 
         }
     );
+
+
+
+    /* =====================================================
+       CLOSE MOBILE MENU IF SCREEN RETURNS TO DESKTOP
+    ====================================================== */
+
+    window.addEventListener(
+        "resize",
+        () => {
+
+            if (
+                window.innerWidth > 900
+            ) {
+
+                closeMenu();
+
+            }
+
+        }
+    );
+
 
 
     /* =====================================================
@@ -171,48 +246,140 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-    const revealObserver =
-        new IntersectionObserver(
+    if (
+        "IntersectionObserver" in window
+    ) {
 
-            entries => {
+        const revealObserver =
+            new IntersectionObserver(
 
-                entries.forEach(entry => {
+                entries => {
 
-                    if (
-                        entry.isIntersecting
-                    ) {
+                    entries.forEach(entry => {
 
-                        entry.target.classList.add(
-                            "visible"
-                        );
+                        if (
+                            entry.isIntersecting
+                        ) {
 
-                        revealObserver.unobserve(
-                            entry.target
-                        );
+                            entry.target.classList.add(
+                                "is-visible"
+                            );
 
-                    }
+
+                            revealObserver.unobserve(
+                                entry.target
+                            );
+
+                        }
+
+                    });
+
+                },
+
+                {
+                    threshold: 0.12,
+
+                    rootMargin:
+                        "0px 0px -50px 0px"
+                }
+
+            );
+
+
+        revealElements.forEach(element => {
+
+            revealObserver.observe(
+                element
+            );
+
+        });
+
+
+    } else {
+
+
+        revealElements.forEach(element => {
+
+            element.classList.add(
+                "is-visible"
+            );
+
+        });
+
+    }
+
+
+
+    /* =====================================================
+       SMOOTH INTERNAL LINKS
+    ====================================================== */
+
+    const internalLinks =
+        document.querySelectorAll(
+            'a[href^="#"]'
+        );
+
+
+    internalLinks.forEach(link => {
+
+        link.addEventListener(
+            "click",
+            event => {
+
+                const targetId =
+                    link.getAttribute(
+                        "href"
+                    );
+
+
+                if (
+                    !targetId ||
+                    targetId === "#"
+                ) {
+                    return;
+                }
+
+
+                const target =
+                    document.querySelector(
+                        targetId
+                    );
+
+
+                if (!target) {
+                    return;
+                }
+
+
+                event.preventDefault();
+
+
+                target.scrollIntoView({
+
+                    behavior:
+                        window.matchMedia(
+                            "(prefers-reduced-motion: reduce)"
+                        ).matches
+                            ? "auto"
+                            : "smooth",
+
+                    block:
+                        "start"
 
                 });
 
-            },
 
-            {
-                threshold: 0.12,
+                history.replaceState(
+                    null,
+                    "",
+                    targetId
+                );
 
-                rootMargin:
-                    "0px 0px -50px 0px"
             }
-
-        );
-
-
-    revealElements.forEach(element => {
-
-        revealObserver.observe(
-            element
         );
 
     });
+
 
 
     /* =====================================================
@@ -224,15 +391,18 @@ document.addEventListener("DOMContentLoaded", () => {
             "signupForm"
         );
 
+
     const emailInput =
         document.getElementById(
             "email"
         );
 
+
     const formMessage =
         document.getElementById(
             "formMessage"
         );
+
 
     const submitButton =
         document.getElementById(
@@ -254,6 +424,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 event.preventDefault();
 
 
+                formMessage.classList.remove(
+                    "success",
+                    "error"
+                );
+
+
                 const email =
                     emailInput
                         .value
@@ -272,28 +448,27 @@ document.addEventListener("DOMContentLoaded", () => {
                     formMessage.textContent =
                         "Please enter a valid email address.";
 
-                    return;
 
-                }
+                    formMessage.classList.add(
+                        "error"
+                    );
 
 
-                if (
-                    GOOGLE_SCRIPT_URL ===
-                    "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"
-                ) {
+                    emailInput.focus();
 
-                    formMessage.textContent =
-                        "Private Access is not connected yet.";
 
                     return;
 
                 }
+
 
 
                 submitButton.disabled = true;
 
+
                 submitButton.textContent =
-                    "Sending";
+                    "Sending…";
+
 
                 formMessage.textContent =
                     "Submitting your request...";
@@ -301,13 +476,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 try {
 
+
                     const formData =
                         new URLSearchParams();
+
 
                     formData.append(
                         "email",
                         email
                     );
+
 
                     formData.append(
                         "source",
@@ -315,30 +493,46 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
 
 
+
                     await fetch(
                         GOOGLE_SCRIPT_URL,
                         {
-                            method: "POST",
-                            mode: "no-cors",
+
+                            method:
+                                "POST",
+
+                            mode:
+                                "no-cors",
 
                             headers: {
+
                                 "Content-Type":
                                     "application/x-www-form-urlencoded"
+
                             },
 
                             body:
                                 formData.toString()
+
                         }
                     );
+
 
 
                     formMessage.textContent =
                         "Your Private Access request has been received.";
 
+
+                    formMessage.classList.add(
+                        "success"
+                    );
+
+
                     signupForm.reset();
 
 
                 } catch (error) {
+
 
                     console.error(
                         "Private Access submission error:",
@@ -349,10 +543,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     formMessage.textContent =
                         "We could not submit your request. Please try again.";
 
+
+                    formMessage.classList.add(
+                        "error"
+                    );
+
+
                 } finally {
+
 
                     submitButton.disabled =
                         false;
+
 
                     submitButton.textContent =
                         "Enter";
