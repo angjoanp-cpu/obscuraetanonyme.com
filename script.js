@@ -2,17 +2,13 @@ document.documentElement.classList.add("js");
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* =====================================================
-       GOOGLE APPS SCRIPT
-    ====================================================== */
+    /* GOOGLE APPS SCRIPT */
 
     const GOOGLE_SCRIPT_URL =
         "https://script.google.com/macros/s/AKfycbx0LUeUU0Jtjga8VM5CrvaNjrjmVEJdE_ZPRjkpJKOA10A6EEJMAifu93GNlPtGMitg2A/exec";
 
 
-    /* =====================================================
-       CURRENT YEAR
-    ====================================================== */
+    /* CURRENT YEAR */
 
     const year =
         document.getElementById("year");
@@ -23,9 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    /* =====================================================
-       HEADER SCROLL
-    ====================================================== */
+    /* HEADER SCROLL */
 
     const header =
         document.querySelector(".site-header");
@@ -64,9 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    /* =====================================================
-       MOBILE MENU
-    ====================================================== */
+    /* MOBILE MENU */
 
     const menuToggle =
         document.getElementById(
@@ -194,9 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    /* =====================================================
-       CLOSE MENU WITH ESCAPE
-    ====================================================== */
+    /* CLOSE MENU WITH ESCAPE */
 
     document.addEventListener(
         "keydown",
@@ -215,9 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    /* =====================================================
-       CLOSE MOBILE MENU IF SCREEN RETURNS TO DESKTOP
-    ====================================================== */
+    /* CLOSE MOBILE MENU IF SCREEN RETURNS TO DESKTOP */
 
     window.addEventListener(
         "resize",
@@ -236,9 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    /* =====================================================
-       REVEAL ON SCROLL
-    ====================================================== */
+    /* REVEAL ON SCROLL */
 
     const revealElements =
         document.querySelectorAll(
@@ -310,9 +296,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    /* =====================================================
-       SMOOTH INTERNAL LINKS
-    ====================================================== */
+    /* SMOOTH INTERNAL LINKS */
 
     const internalLinks =
         document.querySelectorAll(
@@ -382,9 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    /* =====================================================
-       PRIVATE ACCESS FORM
-    ====================================================== */
+    /* PRIVATE ACCESS FORM */
 
     const signupForm =
         document.getElementById(
