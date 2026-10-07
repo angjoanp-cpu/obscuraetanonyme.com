@@ -2,10 +2,12 @@ document.documentElement.classList.add("js");
 
 document.addEventListener("DOMContentLoaded", () => {
 
+
     /* GOOGLE APPS SCRIPT */
 
     const GOOGLE_SCRIPT_URL =
         "https://script.google.com/macros/s/AKfycbx0LUeUU0Jtjga8VM5CrvaNjrjmVEJdE_ZPRjkpJKOA10A6EEJMAifu93GNlPtGMitg2A/exec";
+
 
 
     /* CURRENT YEAR */
@@ -14,35 +16,33 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("year");
 
     if (year) {
+
         year.textContent =
             new Date().getFullYear();
+
     }
+
 
 
     /* HEADER SCROLL */
 
     const header =
-        document.querySelector(".site-header");
+        document.querySelector(
+            ".site-header"
+        );
 
 
     function handleHeaderScroll() {
 
-        if (!header) return;
-
-
-        if (window.scrollY > 70) {
-
-            header.classList.add(
-                "scrolled"
-            );
-
-        } else {
-
-            header.classList.remove(
-                "scrolled"
-            );
-
+        if (!header) {
+            return;
         }
+
+
+        header.classList.toggle(
+            "scrolled",
+            window.scrollY > 70
+        );
 
     }
 
@@ -50,7 +50,9 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener(
         "scroll",
         handleHeaderScroll,
-        { passive: true }
+        {
+            passive: true
+        }
     );
 
 
@@ -170,7 +172,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         const navLinks =
-            mainNav.querySelectorAll("a");
+            mainNav.querySelectorAll(
+                "a"
+            );
 
 
         navLinks.forEach(link => {
@@ -205,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    /* CLOSE MOBILE MENU IF SCREEN RETURNS TO DESKTOP */
+    /* CLOSE MENU ON DESKTOP */
 
     window.addEventListener(
         "resize",
@@ -232,7 +236,27 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-    if (
+    const prefersReducedMotion =
+        window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+
+    if (prefersReducedMotion) {
+
+        revealElements.forEach(
+            element => {
+
+                element.classList.add(
+                    "is-visible"
+                );
+
+            }
+        );
+
+    }
+
+    else if (
         "IntersectionObserver" in window
     ) {
 
@@ -241,56 +265,67 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 entries => {
 
-                    entries.forEach(entry => {
+                    entries.forEach(
+                        entry => {
 
-                        if (
-                            entry.isIntersecting
-                        ) {
+                            if (
+                                entry.isIntersecting
+                            ) {
 
-                            entry.target.classList.add(
-                                "is-visible"
-                            );
-
-
-                            revealObserver.unobserve(
                                 entry.target
-                            );
+                                    .classList
+                                    .add(
+                                        "is-visible"
+                                    );
+
+
+                                revealObserver
+                                    .unobserve(
+                                        entry.target
+                                    );
+
+                            }
 
                         }
-
-                    });
+                    );
 
                 },
 
                 {
+
                     threshold: 0.12,
 
                     rootMargin:
                         "0px 0px -50px 0px"
+
                 }
 
             );
 
 
-        revealElements.forEach(element => {
+        revealElements.forEach(
+            element => {
 
-            revealObserver.observe(
-                element
-            );
+                revealObserver.observe(
+                    element
+                );
 
-        });
+            }
+        );
 
+    }
 
-    } else {
+    else {
 
+        revealElements.forEach(
+            element => {
 
-        revealElements.forEach(element => {
+                element.classList.add(
+                    "is-visible"
+                );
 
-            element.classList.add(
-                "is-visible"
-            );
-
-        });
+            }
+        );
 
     }
 
@@ -304,65 +339,67 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
 
-    internalLinks.forEach(link => {
+    internalLinks.forEach(
+        link => {
 
-        link.addEventListener(
-            "click",
-            event => {
+            link.addEventListener(
+                "click",
+                event => {
 
-                const targetId =
-                    link.getAttribute(
-                        "href"
-                    );
-
-
-                if (
-                    !targetId ||
-                    targetId === "#"
-                ) {
-                    return;
-                }
+                    const targetId =
+                        link.getAttribute(
+                            "href"
+                        );
 
 
-                const target =
-                    document.querySelector(
+                    if (
+                        !targetId ||
+                        targetId === "#"
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const target =
+                        document.querySelector(
+                            targetId
+                        );
+
+
+                    if (!target) {
+                        return;
+                    }
+
+
+                    event.preventDefault();
+
+
+                    target.scrollIntoView({
+
+                        behavior:
+                            prefersReducedMotion
+                                ? "auto"
+                                : "smooth",
+
+                        block:
+                            "start"
+
+                    });
+
+
+                    history.replaceState(
+                        null,
+                        "",
                         targetId
                     );
 
-
-                if (!target) {
-                    return;
                 }
+            );
 
-
-                event.preventDefault();
-
-
-                target.scrollIntoView({
-
-                    behavior:
-                        window.matchMedia(
-                            "(prefers-reduced-motion: reduce)"
-                        ).matches
-                            ? "auto"
-                            : "smooth",
-
-                    block:
-                        "start"
-
-                });
-
-
-                history.replaceState(
-                    null,
-                    "",
-                    targetId
-                );
-
-            }
-        );
-
-    });
+        }
+    );
 
 
 
@@ -413,9 +450,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 const email =
-                    emailInput
-                        .value
-                        .trim();
+                    emailInput.value.trim();
 
 
                 const emailPattern =
@@ -445,7 +480,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-                submitButton.disabled = true;
+                submitButton.disabled =
+                    true;
 
 
                 submitButton.textContent =
@@ -456,25 +492,23 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Submitting your request...";
 
 
+                const formData =
+                    new URLSearchParams();
+
+
+                formData.append(
+                    "email",
+                    email
+                );
+
+
+                formData.append(
+                    "source",
+                    "Obscura et Anonyme Website"
+                );
+
+
                 try {
-
-
-                    const formData =
-                        new URLSearchParams();
-
-
-                    formData.append(
-                        "email",
-                        email
-                    );
-
-
-                    formData.append(
-                        "source",
-                        "Obscura et Anonyme Website"
-                    );
-
-
 
                     await fetch(
                         GOOGLE_SCRIPT_URL,
@@ -500,7 +534,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
 
 
-
                     formMessage.textContent =
                         "Your Private Access request has been received.";
 
@@ -512,9 +545,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     signupForm.reset();
 
+                }
 
-                } catch (error) {
-
+                catch (error) {
 
                     console.error(
                         "Private Access submission error:",
@@ -530,9 +563,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         "error"
                     );
 
+                }
 
-                } finally {
-
+                finally {
 
                     submitButton.disabled =
                         false;
