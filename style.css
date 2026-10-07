@@ -3028,3 +3028,75 @@ input:focus-visible {
         rgba(0, 0, 0, 0.18);
 
 }
+/* SEO / PERFORMANCE SUPPORT */
+
+/*
+   Allows modern browsers to skip rendering
+   off-screen sections until needed.
+   This can improve initial rendering performance
+   on longer pages.
+*/
+
+@supports (content-visibility: auto) {
+
+    .section,
+    .statement,
+    .anonyme-section,
+    .for-those-who-know,
+    .first-fifty,
+    .mark-section,
+    .manifesto,
+    .private-list {
+
+        content-visibility: auto;
+
+        contain-intrinsic-size:
+            auto 900px;
+
+    }
+
+}
+
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+
+        scroll-behavior: auto;
+
+    }
+
+    *,
+    *::before,
+    *::after {
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+
+        transition-duration:
+            0.01ms !important;
+
+    }
+
+}
+
+
+/* ACCESSIBLE FOCUS */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+
+    outline:
+        2px solid
+        var(--gold-light);
+
+    outline-offset:
+        4px;
+
+}
