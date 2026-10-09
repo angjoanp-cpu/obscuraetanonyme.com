@@ -125,47 +125,35 @@
     >
 
 
-    <!-- STRUCTURED DATA -->
+   <!-- STRUCTURED DATA -->
 
-    <script type="application/ld+json">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
     {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "Organization",
-                "@id": "https://obscuraetanonyme.com/#organization",
-                "name": "Obscura et Anonyme",
-                "url": "https://obscuraetanonyme.com/",
-                "logo": "https://obscuraetanonyme.com/obscura-logo.png",
-                "email": "info@obscuraetanonyme.com",
-                "description": "An independent design house creating limited-edition silk scarves and considered objects."
-            },
-            {
-                "@type": "WebSite",
-                "@id": "https://obscuraetanonyme.com/#website",
-                "url": "https://obscuraetanonyme.com/",
-                "name": "Obscura et Anonyme",
-                "publisher": {
-                    "@id": "https://obscuraetanonyme.com/#organization"
-                },
-                "inLanguage": "en"
-            },
-            {
-                "@type": "Product",
-                "@id": "https://obscuraetanonyme.com/#le-premier-voile",
-                "name": "Anonyme ØØΙ — Le Premier Voile",
-                "description": "A limited-edition 55 × 55 cm silk twill scarf by Obscura et Anonyme, released as an edition of 50.",
-                "brand": {
-                    "@id": "https://obscuraetanonyme.com/#organization"
-                },
-                "material": "100% Silk Twill",
-                "size": "55 × 55 cm",
-                "category": "Silk Scarves"
-            }
-        ]
+      "@type": "Organization",
+      "@id": "https://obscuraetanonyme.com/#organization",
+      "name": "Obscura et Anonyme",
+      "url": "https://obscuraetanonyme.com/",
+      "logo": "https://obscuraetanonyme.com/obscura-logo.png",
+      "email": "info@obscuraetanonyme.com",
+      "description": "An independent design house creating limited-edition silk scarves and considered objects."
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://obscuraetanonyme.com/#website",
+      "url": "https://obscuraetanonyme.com/",
+      "name": "Obscura et Anonyme",
+      "description": "Limited Editions, Quietly Distinct.",
+      "publisher": {
+        "@id": "https://obscuraetanonyme.com/#organization"
+      },
+      "inLanguage": "en"
     }
-    </script>
-
+  ]
+}
+</script>
 
     <!-- CSS -->
 
